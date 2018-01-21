@@ -1,0 +1,104 @@
+clc
+clear
+
+%Multi SUs and Multi PUs all exponential distributed
+%Finding Eigenvector and Eigenvalues 
+%Making matrices A, B for 
+%Given cj=j*c and M and N 
+%Making initial Condition P(0)
+
+% plot Overflow probability for buffer and delay vs 
+% buffer size and delay threshold
+%change of \rho by lambdaP,lambdaC,muP,muC in same plot
+
+%this works!
+%Individiual Buffer
+
+
+x=0:.1:50; %input range
+
+Np=13; % # Producer (SUs)
+Nc=3; % # Consumer (PUs)
+
+
+
+%mu:      stands for producing/consuming
+%lambda:  stands for NOT producing/consuming
+
+% Average ON time= 1/mu
+%Average OFF time= 1/lambda
+
+%Consumer (PU) %80 off during time
+muC_0=1.090919191;   % PU OFF period Parameter (Consuming)
+lambdaC_0=4*muC_0;       % PU ON period parameter  (NOT Consuming) 
+
+%Producer (SU) %60 off during time
+muP_0=0.96957;       % SU ON period parameter  (Producing)
+lambdaP_0=2/3*muP_0;   % SU OFF period Parameter (NOT Producing)
+
+
+c_p=1.01; %consumer
+%c_c =3.9; % Each Consumer(primary)'s Channel capacity
+
+epsi = 1e-5;
+
+%rho ranges and changes
+R_min=0.2;
+
+R_stp=0.2;
+R_max=0.9;
+
+    
+
+F1_t_lambdaP=[]; %Overflow probability
+F2_t_lambdaP=[]; %Individual Buffer Overflow probability
+
+F1_t_lambdaC=[]; %Overflow probability
+F2_t_lambdaC=[]; %Individual Buffer Overflow probability
+
+F1_t_muP=[]; %Overflow probability
+F2_t_muP=[]; %Individual Buffer Overflow probability
+
+F1_t_muC=[]; %Overflow probability
+F2_t_muC=[]; %Individual Buffer Overflow probability
+
+%c_c Change---------------------------------------------------------
+STR=[];
+for rho=R_min:R_stp:R_max
+    
+    
+    t1=Np*c_p*lambdaP_0/(lambdaP_0+muP_0);
+    c_c=t1/rho/(Nc*lambdaC/(lambdaC+muC));
+    t2=Nc*(c_c*lambdaC_0)/(lambdaC_0+muC);
+    
+    if muC<0
+        continue
+    end
+
+    
+    if t1>t2 
+        disp(['   UNSTABLE'])
+    end
+    [a f1 f2 F1 F2 M1 M2 S1 S2 P0 F0]    =Coef(Np, muP_0,lambdaP_0, Nc, muC_0, lambdaC_0 , c_p, c_c );
+    
+    F1_t_C_c=[F1_t_C_c; F1(x)];
+    F2_t_C_c=[F2_t_C_c; F2(x)];
+    
+    STR=[STR; ['\rho = '];
+
+end
+
+
+%subplot(224),
+semilogy(x,F2_t_C_c]);
+xlabel(['\fontname{times}Queueing Delay'])
+ylabel(['\fontname{times}Delay Outage Probability'])
+legend(['\lambda_c= ', num2str(lambdaC)],['\lambda_p= ', num2str(lambdaP)],...
+    ['\mu_c= ',num2str(muC)],['\mu_p= ', num2str(muP)])
+title(['\rho= ',num2str(rho)])
+ylim([0,1])
+axis square
+grid on
+hold off
+
+
