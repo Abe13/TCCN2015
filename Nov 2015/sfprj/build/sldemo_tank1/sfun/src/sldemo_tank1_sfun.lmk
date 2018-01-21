@@ -1,0 +1,37 @@
+CC     = "c:\program files (x86)\matlab\r2007b\sys\lcc\bin\lcc.exe"
+LD     = "c:\program files (x86)\matlab\r2007b\sys\lcc\bin\lcclnk.exe"
+LIBCMD = "c:\program files (x86)\matlab\r2007b\sys\lcc\bin\lcclib.exe"
+CFLAGS = -c -Zp8 -DMATLAB_MEX_FILE -noregistrylookup
+LDFLAGS = -s -dll -L"c:\program files (x86)\matlab\r2007b\sys\lcc\lib"
+LIBFLAGS = 
+
+OBJECTS = \
+	"sldemo_tank1_sfun.obj"\
+	"sldemo_tank1_sfun_registry.obj"\
+	"c1_sldemo_tank1.obj"\
+	"c2_sldemo_tank1.obj"\
+	"lccstub.obj"\
+	"c:\program files (x86)\matlab\r2007b\sys\lcc\mex\lccdef.def"\
+	"c:\program files (x86)\matlab\r2007b\stateflow\c\debugger\lib\win32\sfc_debuglcc.lib"\
+	"c:\program files (x86)\matlab\r2007b\stateflow\c\mex\lib\win32\sfc_mexlcc.lib"\
+	"c:\program files (x86)\matlab\r2007b\extern\lib\win32\lcc\libmex.lib"\
+	"c:\program files (x86)\matlab\r2007b\extern\lib\win32\lcc\libmx.lib"\
+	"c:\program files (x86)\matlab\r2007b\extern\lib\win32\lcc\libfixedpoint.lib"\
+	"c:\program files (x86)\matlab\r2007b\extern\lib\win32\lcc\libut.lib"\
+	"c:\program files (x86)\matlab\r2007b\toolbox\dspblks\lib\win32\dsp_dyn_rt_lcc.lib"\
+
+INCLUDE_PATH= -I"c:\program files (x86)\matlab\r2007b\sys\lcc\include"  -I"c:\program files (x86)\matlab\r2007b\extern\include"  -I"c:\program files (x86)\matlab\r2007b\simulink\include"  -I"c:\program files (x86)\matlab\r2007b\stateflow\c\mex\include"  -I"c:\program files (x86)\matlab\r2007b\stateflow\c\debugger\include"  -I"c:\program files (x86)\matlab\r2007b\toolbox\eml\lib\dsp"  -I"c:\users\amir\dropbox\cognitive radio\report\delay analysis\simulation\jan 2014\sfprj\build\sldemo_tank1\sfun\src"  -I"c:\users\amir\dropbox\cognitive radio\report\delay analysis\simulation\jan 2014"  -I"c:\users\amir\dropbox\cognitive radio\report\delay analysis\simulation" 
+ 
+
+sldemo_tank1_sfun.mexw32 : $(MAKEFILE) $(OBJECTS)
+	$(LD) $(LDFLAGS) -o sldemo_tank1_sfun.mexw32 @sldemo_tank1_sfun.lmko
+sldemo_tank1_sfun.obj :	"sldemo_tank1_sfun.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "sldemo_tank1_sfun.c"
+sldemo_tank1_sfun_registry.obj :	"sldemo_tank1_sfun_registry.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "sldemo_tank1_sfun_registry.c"
+c1_sldemo_tank1.obj :	"c1_sldemo_tank1.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c1_sldemo_tank1.c"
+c2_sldemo_tank1.obj :	"c2_sldemo_tank1.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c2_sldemo_tank1.c"
+lccstub.obj :	"c:\program files (x86)\matlab\r2007b\sys\lcc\mex\lccstub.c"
+	$(CC) $(CFLAGS) $(INCLUDE_PATH) "c:\program files (x86)\matlab\r2007b\sys\lcc\mex\lccstub.c"
